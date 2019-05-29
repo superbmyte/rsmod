@@ -50,6 +50,12 @@ MEN.forEach { man ->
             attack = 422
         }
     }
+
+    set_drop_table(man) {
+        droptable {
+            dropTableJSON = "man/man.drops.json"
+        }
+    }
 }
 
 suspend fun chat(it: QueueTask) {
