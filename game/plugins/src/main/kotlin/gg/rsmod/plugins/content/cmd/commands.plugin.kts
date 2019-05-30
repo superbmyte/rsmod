@@ -5,6 +5,7 @@ import gg.rsmod.game.model.bits.INFINITE_VARS_STORAGE
 import gg.rsmod.game.model.bits.InfiniteVarsType
 import gg.rsmod.game.model.combat.CombatClass
 import gg.rsmod.game.model.priv.Privilege
+import gg.rsmod.game.model.timer.*
 import gg.rsmod.plugins.content.combat.CombatConfigs
 import gg.rsmod.plugins.content.combat.formula.MagicCombatFormula
 import gg.rsmod.plugins.content.combat.formula.MeleeCombatFormula
@@ -50,6 +51,21 @@ on_command("reboot", Privilege.ADMIN_POWER) {
         val cycles = values[0].toInt()
         world.rebootTimer = cycles
         world.sendRebootTimer()
+    }
+}
+
+on_command("godown", Privilege.OWNER_POWER){
+    val args = player.getCommandArgs()
+    tryWithUsage(player, args, "Invalid format! Example of proper command <col=801700>::godown 500</col>") { values ->
+        val cycles = values[0].toInt()
+        world.queue {
+            world.rebootTimer = cycles
+            world.sendRebootTimer(cycles)
+            wait(cycles)
+            world.players.forEach { player -> player.timers[FORCE_DISCONNECTION_TIMER] = 0 }
+            wait(5)
+            System.exit(0)
+        }
     }
 }
 
