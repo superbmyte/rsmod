@@ -1,6 +1,8 @@
 package gg.rsmod.plugins.api.ext
 
+import gg.rsmod.game.model.Direction
 import gg.rsmod.game.model.Hit
+import gg.rsmod.game.model.Tile
 import gg.rsmod.game.model.attr.*
 import gg.rsmod.game.model.entity.GameObject
 import gg.rsmod.game.model.entity.Npc
@@ -35,6 +37,20 @@ fun Pawn.getInteractingPlayer() : Player = attr[INTERACTING_PLAYER_ATTR]!!.get()
 fun Pawn.hasPrayerIcon(icon: PrayerIcon): Boolean = prayerIcon == icon.id
 
 fun Pawn.getBonus(slot: BonusSlot): Int = equipmentBonuses[slot.id]
+
+fun Pawn.faceDirection(direction: Direction){
+    when(direction){
+        Direction.NORTH_WEST -> faceTile(Tile(tile.x - 1, tile.z + 1))
+        Direction.NORTH -> faceTile(Tile(tile.x, tile.z + 1))
+        Direction.NORTH_EAST -> faceTile(Tile(tile.x + 1, tile.z + 1))
+        Direction.EAST -> faceTile(Tile(tile.x + 1, tile.z))
+        Direction.SOUTH_EAST -> faceTile(Tile(tile.x + 1, tile.z - 1))
+        Direction.SOUTH -> faceTile(Tile(tile.x, tile.z - 1))
+        Direction.SOUTH_WEST -> faceTile(Tile(tile.x - 1, tile.z - 1))
+        Direction.WEST -> faceTile(Tile(tile.x - 1, tile.z))
+        else -> return
+    }
+}
 
 fun Pawn.hit(damage: Int, type: HitType = if (damage == 0) HitType.BLOCK else HitType.HIT, delay: Int = 0): Hit {
     val hit = Hit.Builder()

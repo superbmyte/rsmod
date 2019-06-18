@@ -37,7 +37,7 @@ abstract class PlayerSerializerService : Service {
         client.attr.put(NEW_ACCOUNT_ATTR, true)
 
         client.passwordHash = BCrypt.hashpw(request.password, BCrypt.gensalt(16))
-        client.tile = startTile
+        client.tile = Tile(3094, 3104) // tutorial island
     }
 
     abstract fun initSerializer(server: Server, world: World, serviceProperties: ServerProperties)

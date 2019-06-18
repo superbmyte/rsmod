@@ -1,8 +1,3 @@
-package gg.rsmod.plugins.api.ext
-
-import gg.rsmod.game.model.entity.Player
-import java.util.*
-
 /**
  * Gets the 'interface hash' of a given interface id and
  * child component. This value is commonly used in ClientScripts when referring
@@ -18,18 +13,6 @@ fun Int.getInterfaceHash(child: Int = -1) : Int {
     return value
 }
 
-/**
- * Create an [EnumSet] made up of [values].
- *
- * @param values the default values stored in our set.
- */
-fun Player.flashComponent(parent: Int, child: Int, times: Int){
-    queue {
-        for(i in 1..times){
-            setComponentHidden(parent, child, true)
-            wait(1)
-            setComponentHidden(parent, child, false)
-            wait(1)
-        }
-    }
+fun InterfaceDestination.getRoot(){
+	
 }

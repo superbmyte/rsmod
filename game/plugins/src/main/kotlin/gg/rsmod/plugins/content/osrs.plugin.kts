@@ -2,6 +2,8 @@ package gg.rsmod.plugins.content
 
 import gg.rsmod.game.model.attr.INTERACTING_ITEM_SLOT
 import gg.rsmod.game.model.attr.OTHER_ITEM_SLOT_ATTR
+import gg.rsmod.plugins.content.areas.tutisland.TUT_COMPLETION_VARP
+import gg.rsmod.plugins.content.areas.tutisland.TUT_INTERF_BLOCK
 
 /**
  * Closing main modal for players.
@@ -33,6 +35,7 @@ on_login {
     player.sendWeaponComponentInformation()
     player.sendCombatLevelText()
 
+    player.runClientScript(1446, 1)
 
     // Interface-related logic.
     player.openOverlayInterface(player.interfaces.displayMode)
@@ -40,6 +43,8 @@ on_login {
         if (pane == InterfaceDestination.XP_COUNTER && player.getVarbit(OSRSGameframe.XP_DROPS_VISIBLE_VARBIT) == 0) {
             return@forEach
         } else if (pane == InterfaceDestination.MINI_MAP && player.getVarbit(OSRSGameframe.HIDE_DATA_ORBS_VARBIT) == 1) {
+            return@forEach
+        } else if (player.getVarp(TUT_COMPLETION_VARP) != 1000 && TUT_INTERF_BLOCK.contains(pane)){ //tutorial not completed
             return@forEach
         }
         player.openInterface(pane.interfaceId, pane)

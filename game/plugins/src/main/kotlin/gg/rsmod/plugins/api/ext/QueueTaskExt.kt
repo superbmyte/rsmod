@@ -19,6 +19,11 @@ import gg.rsmod.plugins.api.Skills
 const val CHATBOX_CHILD = 561
 
 /**
+ * The child id of the message overlay in the gameframe interface
+ */
+const val MES_OVERLAY = 560
+
+/**
  * The id for the appearance interface.
  */
 const val APPEARANCE_INTERFACE_ID = 269
@@ -151,6 +156,25 @@ suspend fun QueueTask.searchItemInput(message: String): Int {
     waitReturnValue()
 
     return requestReturnValue as? Int ?: -1
+}
+
+/**
+ * Sends a simple message dialog with no responses expected.
+ *
+ * @message
+ * The message to render on the dialog box.
+ *
+ * @lineSpacing
+ * The spacing, in pixels, in between each line that will be rendered on the
+ * dialog box.
+ */
+fun QueueTask.message(message: String) {
+    player.openInterface(parent = 162, child = MES_OVERLAY, interfaceId = 263, isModal = false)
+    player.runClientScript(1974, message)
+    player.setInterfaceEvents(interfaceId = 263, component = 1, range = -1..-1, setting = 1)
+
+    terminateAction = closeDialog
+    terminateAction!!(this)
 }
 
 /**

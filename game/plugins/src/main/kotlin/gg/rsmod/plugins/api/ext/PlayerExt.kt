@@ -17,6 +17,8 @@ import gg.rsmod.game.model.item.Item
 import gg.rsmod.game.model.timer.SKULL_ICON_DURATION_TIMER
 import gg.rsmod.game.sync.block.UpdateBlockType
 import gg.rsmod.plugins.api.*
+import gg.rsmod.plugins.content.areas.tutisland.TUT_COMPLETED
+import gg.rsmod.plugins.content.areas.tutisland.TUT_COMPLETION_VARP
 import gg.rsmod.plugins.service.marketvalue.ItemMarketValueService
 import gg.rsmod.util.BitManipulation
 
@@ -50,7 +52,8 @@ fun Player.openShop(shop: String) {
 }
 
 fun Player.message(message: String, type: ChatMessageType = ChatMessageType.CONSOLE, username: String? = null) {
-    write(MessageGameMessage(type = type.id, message = message, username = username))
+    if(getVarp(TUT_COMPLETION_VARP) == TUT_COMPLETED)
+        write(MessageGameMessage(type = type.id, message = message, username = username))
 }
 
 fun Player.filterableMessage(message: String) {
@@ -340,6 +343,47 @@ fun Player.setMapFlag(x: Int, z: Int) {
 
 fun Player.clearMapFlag() {
     setMapFlag(255, 255)
+}
+
+fun Player.camShake(index: Int = 0, left: Int = 1, center: Int = 1, right: Int = 1){
+    write(CameraShakeMessage(index, left, center, right))
+}
+
+/**
+ * Displays a HINT_ARROW to the player
+ *
+ * @arrowType
+ * Integer value corresponding as follows:
+ *  1       - NPC
+ *  2..6    - differing offsets [see below]
+ *  10      - Player
+ *
+ * [offsets] (x,y)
+ * 2 - (64,64)  top-right [default]
+ * 3 - (0,64)   up-top
+ * 4 - (128,64) top-left
+ * 5 - (64,0)   to-left
+ * 6 - (64,128) high-left
+ *
+ * @indexOrX
+ * Integer value corresponding to either an index or x value depending on arrowType
+ */
+fun Player.hintArrow(arrowType: Int = 2, indexOrX: Int, y: Int, z: Int){
+    write(HintArrowMessage(arrowType, indexOrX, y, z))
+}
+
+/**
+ * Displays a HINT_ARROW above NPC with npcIdx (padding unused bytes)
+ */
+fun Player.hintNpc(npcIdx: Int){
+    write(HintArrowMessage(1, npcIdx, 0, 0))
+}
+
+/**
+ * Displays a HINT_ARROW above player with playerIdx (padding unused bytes)
+ */
+fun Player.hintPlayer(playerIdx: Int){
+    write(HintArrowMessage(10, playerIdx, 0, 0))
 }
 
 fun Player.sendOption(option: String, id: Int, leftClick: Boolean = false) {

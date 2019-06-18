@@ -15,6 +15,16 @@ package gg.rsmod.game.model.timer
 internal val RESET_PAWN_FACING_TIMER = TimerKey()
 
 /**
+ * A timer for removing a hint popups.
+ */
+val HINT_POPUP_DURATION_TIMER = TimerKey()
+
+/**
+ * A timer for removing a `HINT_ARROW`.
+ */
+val HINT_ARROW_DURATION_TIMER = TimerKey()
+
+/**
  * A timer for removing a skull icon.
  */
 val SKULL_ICON_DURATION_TIMER = TimerKey()

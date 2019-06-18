@@ -1,6 +1,5 @@
 package gg.rsmod.plugins.content.mechanics.trading.impl
 
-import getInterfaceHash
 import gg.rsmod.game.model.container.ContainerStackType
 import gg.rsmod.game.model.container.ItemContainer
 import gg.rsmod.game.model.entity.Player

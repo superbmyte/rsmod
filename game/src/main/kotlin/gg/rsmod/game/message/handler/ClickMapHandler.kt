@@ -1,5 +1,6 @@
 package gg.rsmod.game.message.handler
 
+import gg.rsmod.game.event.FirstMoveEvent
 import gg.rsmod.game.message.MessageHandler
 import gg.rsmod.game.message.impl.MoveGameClickMessage
 import gg.rsmod.game.message.impl.SetMapFlagMessage
@@ -8,6 +9,7 @@ import gg.rsmod.game.model.World
 import gg.rsmod.game.model.attr.NO_CLIP_ATTR
 import gg.rsmod.game.model.entity.Client
 import gg.rsmod.game.model.entity.Entity
+import gg.rsmod.game.model.entity.Player
 import gg.rsmod.game.model.priv.Privilege
 import gg.rsmod.game.model.timer.STUN_TIMER
 
@@ -17,6 +19,10 @@ import gg.rsmod.game.model.timer.STUN_TIMER
 class ClickMapHandler : MessageHandler<MoveGameClickMessage> {
 
     override fun handle(client: Client, world: World, message: MoveGameClickMessage) {
+        val player = client as Player
+        if(player.varps[281].state < 3)
+            player.triggerEvent(FirstMoveEvent)
+
         if (!client.lock.canMove()) {
             return
         }

@@ -1,7 +1,5 @@
 package gg.rsmod.plugins.content.mechanics.starter
 
-import gg.rsmod.game.model.attr.NEW_ACCOUNT_ATTR
-
 load_metadata {
     propertyFileName = "starter_kit"
 
@@ -49,19 +47,16 @@ load_metadata {
     )
 }
 
-on_login {
-    val newAccount = player.attr[NEW_ACCOUNT_ATTR] ?: return@on_login
-    if (newAccount) {
-        val inventory = player.getInventoryStarterItems()
-        val bank = player.getBankStarterItems()
+fun Player.rewardStarterKit(){
+    val inventory = getInventoryStarterItems()
+    val bank = getBankStarterItems()
 
-        inventory.forEach { slotItem ->
-            player.inventory.add(item = slotItem.item, beginSlot = slotItem.slot)
-        }
+    inventory.forEach { slotItem ->
+        this.inventory.add(item = slotItem.item, beginSlot = slotItem.slot)
+    }
 
-        bank.forEach { slotItem ->
-            player.bank.add(item = slotItem.item, beginSlot = slotItem.slot)
-        }
+    bank.forEach { slotItem ->
+        this.bank.add(item = slotItem.item, beginSlot = slotItem.slot)
     }
 }
 
